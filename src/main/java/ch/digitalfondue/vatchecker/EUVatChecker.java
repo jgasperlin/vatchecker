@@ -46,6 +46,8 @@ import java.util.function.BiFunction;
  */
 public class EUVatChecker {
 
+    private static final Logger LOG = Logger.getLogger(EUVatChecker.class.getName());
+    
     private static final Document BASE_DOCUMENT_TEMPLATE;
 
     private static final String ENDPOINT = "https://ec.europa.eu/taxation_customs/vies/services/checkVatService";
