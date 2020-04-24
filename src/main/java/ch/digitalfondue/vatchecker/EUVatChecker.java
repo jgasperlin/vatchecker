@@ -125,8 +125,22 @@ public class EUVatChecker {
 
     private static Transformer getTransformer() throws TransformerConfigurationException {
         TransformerFactory tf = TransformerFactory.newInstance();
-        tf.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
-        tf.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
+        try {
+            tf.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+        } catch (IllegalArgumentException e) {
+            LOG.warning("Could not set attribute ACCESS_EXTERNAL_DTD, trying fallback to FEATURE_SECURE_PROCESSING.");
+
+            try {
+                tf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+            } catch (IllegalArgumentException e1) {
+                LOG.warning("Could not set attribute FEATURE_SECURE_PROCESSING.");
+            }
+        }
+        try {
+            tf.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
+        } catch (IllegalArgumentException e) {
+            LOG.warning("Could not set attribute ACCESS_EXTERNAL_STYLESHEET.");
+        }
         return tf.newTransformer();
     }
 
