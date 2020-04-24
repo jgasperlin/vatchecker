@@ -45,8 +45,6 @@ import java.util.function.BiFunction;
  * The main entry points are {@link #doCheck(String, String)} and if more customization is needed {@link #doCheck(String, String, BiFunction)}.
  */
 public class EUVatChecker {
-
-    private static final Logger LOG = Logger.getLogger(EUVatChecker.class.getName());
     
     private static final Document BASE_DOCUMENT_TEMPLATE;
 
@@ -130,19 +128,13 @@ public class EUVatChecker {
         try {
             tf.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
         } catch (IllegalArgumentException e) {
-            LOG.warning("Could not set attribute ACCESS_EXTERNAL_DTD, trying fallback to FEATURE_SECURE_PROCESSING.");
-
             try {
                 tf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
-            } catch (IllegalArgumentException e1) {
-                LOG.warning("Could not set attribute FEATURE_SECURE_PROCESSING.");
-            }
+            } catch (IllegalArgumentException e1) {}
         }
         try {
             tf.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
-        } catch (IllegalArgumentException e) {
-            LOG.warning("Could not set attribute ACCESS_EXTERNAL_STYLESHEET.");
-        }
+        } catch (IllegalArgumentException e) {}
         return tf.newTransformer();
     }
 
